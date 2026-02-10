@@ -1,0 +1,44 @@
+﻿<Page x:Class="_236kEF.StudentsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_236kEF"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="StudentsPage">
+
+    <StackPanel>
+        <TextBlock Text="Студенты" FontSize="16"/>
+
+        <DataGrid x:Name="StudentTable" AutoGenerateColumns="False" Height="200"
+                  SelectionChanged="StudentTable_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО"
+                    Binding="{Binding FIO}" />
+                
+                <DataGridTextColumn Header="Группа"
+                   Binding="{Binding Group.Name}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <StackPanel>
+            <TextBlock Text="ФИО" />
+            <TextBox Text="{Binding FIO}"/>
+            <TextBlock Text="Год рождения" />
+            <TextBox Text="{Binding YearB}"/>
+            <TextBlock Text="Телефон" />
+            <TextBox Text="{Binding Phone}"/>
+            <TextBlock Text="Группа" />
+            <ComboBox x:Name="ListGroups"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="GroupId"
+                    SelectedValue="{Binding GroupId}" />      
+
+          
+        </StackPanel>
+        <Button Content="Сохранить" Click="Save_Click"/>
+        <Button Content="Добавить" Click="Add_Click"/>
+    </StackPanel>
+</Page>
