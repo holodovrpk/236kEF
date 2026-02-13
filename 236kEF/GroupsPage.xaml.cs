@@ -34,11 +34,64 @@ namespace _236kEF
             groups = db.Groups.Local.ToObservableCollection();
 
             GroupTable.ItemsSource = groups;
+            GroupItem.ItemsSource = groups;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             db.SaveChanges();
+        }
+
+        private void Plitka_Click(object sender, RoutedEventArgs e)
+        {
+            GroupItem.Visibility = Visibility.Visible;
+            GroupTable.Visibility = Visibility.Collapsed;
+        }
+
+        private void Table_Click(object sender, RoutedEventArgs e)
+        {
+            GroupItem.Visibility = Visibility.Collapsed;
+            GroupTable.Visibility = Visibility.Visible;
+        }
+
+        private void Del_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Button).DataContext is Group g)
+            {
+
+                var r = MessageBox.Show($"Удалить группу {g.Name}?", "Удаление", 
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (r == MessageBoxResult.Yes)
+                {
+                    groups.Remove(g);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Button).DataContext is Group g)
+            {
+                AddGroupWindow w = new AddGroupWindow();
+                w.DataContext = g;
+                w.ShowDialog();
+                db.SaveChanges();
+            }
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            Group g = new Group();
+            AddGroupWindow w = new AddGroupWindow();
+            w.DataContext = g;
+
+            if (w.ShowDialog() == true)
+            {
+                groups.Add(g);
+                db.SaveChanges();
+            }
         }
     }
 }
