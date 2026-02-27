@@ -10,6 +10,28 @@
 
     <StackPanel>
         <TextBlock Text="Студенты" FontSize="16"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="ФИО ↓" Click="SortAsc_Click"/>
+            <Button Content="ФИО ↑" Click="SortDesc_Click"/>
+            <Label Width="150"/>
+            <Button Content="Совершеннолетние" Click="Is18_Click"/>
+            <Button Content="Все" Click="AllYears_Click"/>
+            <Label Width="50"/>
+            <ComboBox x:Name="FilterGroups"
+                DisplayMemberPath="Name"
+                SelectedValuePath="Id"
+                SelectedIndex="0"
+                SelectionChanged="FilterGroups_SelectionChanged"
+                />
+               
+            
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Поиск   " />
+            <TextBox x:Name="SearchText" Width="200" TextChanged="SearchText_TextChanged"/>
+        </StackPanel>
+       
 
         <DataGrid x:Name="StudentTable" AutoGenerateColumns="False" Height="200"
                   SelectionChanged="StudentTable_SelectionChanged">

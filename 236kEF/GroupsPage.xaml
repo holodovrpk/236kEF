@@ -11,8 +11,8 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal" >
             <TextBlock Text="Группы" FontSize="16" Width="500"/>
-            <Button Content="🂐" Click="Plitka_Click"/>
-            <Button Content="📔" Click="Table_Click"/>
+            <Button Content="🂐" Click="Plitka_Click" Margin="2"/>
+            <Button Content="📔" Click="Table_Click" Margin="2"/>
         </StackPanel>
         
 

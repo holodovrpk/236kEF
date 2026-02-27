@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace _236kEF
 {
@@ -37,6 +38,18 @@ namespace _236kEF
             StudentTable.ItemsSource = students;
             ListGroups.ItemsSource = db.Groups.ToList();
 
+            // загрузка групп
+            var dbGroups = db.Groups
+                .Select(g => new GroupFilterItem { Id = g.GroupId, Name = g.Name })
+                .ToList();
+
+            // добавляем "Все" в начало
+            dbGroups.Insert(0, new GroupFilterItem { Id = 0, Name = "Все" });
+
+            FilterGroups.ItemsSource = dbGroups;
+
+
+           
         }
 
         private void StudentTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -67,6 +80,76 @@ namespace _236kEF
                 students.Add(s);
                 db.SaveChanges();
             }
+        }
+
+        private void SortAsc_Click(object sender, RoutedEventArgs e)
+        {
+            var sorted = students
+                .OrderBy(s => s.FIO)
+                .ToList();
+
+            students = new ObservableCollection<Student>(sorted);
+            StudentTable.ItemsSource=students;
+        }
+
+        private void SortDesc_Click(object sender, RoutedEventArgs e)
+        {
+            var sorted = students
+                .OrderByDescending(s => s.FIO)
+                .ToList();
+
+            students = new ObservableCollection<Student>(sorted);
+            StudentTable.ItemsSource = students;
+        }
+
+        private void Is18_Click(object sender, RoutedEventArgs e)
+        {
+            int year = DateTime.Now.Date.Year;
+
+            var filtered = students
+                .Where(s => (s.YearB + 18) < year ).ToList();
+
+            students = new ObservableCollection<Student>(filtered);
+            StudentTable.ItemsSource = students;
+        }
+
+        private void AllYears_Click(object sender, RoutedEventArgs e)
+        {
+            students = new ObservableCollection<Student>(
+                db.Students.Local.ToList());
+            StudentTable.ItemsSource = students;
+        }
+
+        private void FilterGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // students — ваша ObservableCollection, привязанная к DataGrid
+            var query = db.Students.Local.ToList();
+
+            int id_group = Convert.ToInt32(FilterGroups.SelectedValue);
+
+            if (id_group != 0) // если не "Все"
+                query = query.Where(s => s.GroupId == id_group).ToList();
+
+            students = new ObservableCollection<Student>(query);
+            StudentTable.ItemsSource = students;
+
+        }
+
+        private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var result = db.Students.Local.ToList();
+
+            if (SearchText.Text != "")
+            {
+                result = result
+                  .Where(s => s.FIO.ToLower().Contains(SearchText.Text.ToLower())
+                || s.Phone.Contains(SearchText.Text)).ToList();
+            }
+
+
+            students = new ObservableCollection<Student>(result);
+            StudentTable.ItemsSource = students;
+
         }
     }
 }
