@@ -35,6 +35,11 @@ namespace _236kEF
 
             GroupTable.ItemsSource = groups;
             GroupItem.ItemsSource = groups;
+
+            if (CurrentUser.Role == "Пользователь")
+            {
+                bAdd.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

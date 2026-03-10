@@ -24,7 +24,11 @@
         <StackPanel Grid.Row="1" Grid.Column="0" Background="CadetBlue">
             <Button Content="Группы" Width="150" Margin="10" Click="Group_Click"/>
             <Button Content="Студенты" Width="150" Margin="10" Click="Student_Click"/>
-            <Button Content="Выход" Width="150" Margin="10"/>
+            <Button Content="Выход" Width="150" Margin="10" Click="Button_Click"/>
+            <TextBox x:Name="www" />
+
+            <TextBlock x:Name="txtName" Foreground="White"/>
+            <TextBlock x:Name="txtRole" Foreground="White"/>
         </StackPanel>
 
         <Frame x:Name="MainFrame" Grid.Row="1" Grid.Column="1"/>

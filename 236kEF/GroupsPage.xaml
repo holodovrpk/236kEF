@@ -42,7 +42,7 @@
         </ScrollViewer>
 
 
-        <Button Content="Добавить группу" Click="Add_Click"/>
+        <Button x:Name="bAdd" Content="Добавить группу" Click="Add_Click"/>
         <Button Content="Сохранить изменения" Click="Save_Click"/>
     </StackPanel>
 </Page>

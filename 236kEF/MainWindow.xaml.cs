@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Security.Cryptography;
 
 namespace _236kEF
 {
@@ -22,7 +23,8 @@ namespace _236kEF
         {
             InitializeComponent();
 
-            
+            txtName.Text = CurrentUser.FullName;
+            txtRole.Text = CurrentUser.Role;
         }
 
         private void Group_Click(object sender, RoutedEventArgs e)
@@ -34,5 +36,17 @@ namespace _236kEF
         {
             MainFrame.Navigate(new StudentsPage());
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            www.Text = Hash(www.Text);
+        }
+
+        public static string Hash(string input)
+        {
+            using var sha = SHA256.Create();
+            return Convert.ToBase64String(sha.ComputeHash(Encoding.UTF8.GetBytes(input)));
+        }
+
     }
 }
